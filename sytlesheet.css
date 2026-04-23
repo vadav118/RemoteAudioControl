@@ -1,0 +1,61 @@
+.layout_helper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.content_frame {
+    flex:7;
+    width: 100vw;
+}
+
+.foot {
+    flex: 1;
+    width: 100vw;
+}
+
+.topnav {
+    flex:1;
+    display: flex;
+    width: 100vw;
+}
+
+.topnav div {
+    flex: 1;
+    text-align: center;
+    padding: min(3vh,3vw);
+    justify-content: center;
+    text-decoration: none; 
+    box-sizing: border-box;
+    background-color: aquamarine;
+}
+
+.topnav div button {
+    
+    text-align: center;
+    font-size: max(2.5vh, 2.5vw);
+    border-radius: 10px;
+}
+
+body {
+    background-color: rgb(83, 209, 209);
+    margin: 0;
+   
+
+}
+
+.foot {
+    padding: 2vh 0vw 2vh 0vw;
+    width: 100vw;
+    background-color: aquamarine;
+}
+
+.active {
+    background-color: rgb(29, 153, 153);
+}
+.inactive {
+    background-color: rgb(83, 209, 209);
+}
