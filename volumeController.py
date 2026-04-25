@@ -3,26 +3,33 @@ from comtypes import *
 from ctypes import *
 import warnings
 import json
+import requests
 
-
-devices=AudioUtilities.GetSpeakers()
-volume = devices.EndpointVolume
-sessions = AudioUtilities.GetAllSessions()
-
-def ListAllSessions():
-    sessionlist = []
+def PostAllSessions():
+    sessions = AudioUtilities.GetAllSessions()
+    sessionlist=[]
     for session in sessions:
         if session.Process is not None:
-            sessionlist.append(session.Process.name())
-    return sessionlist
+            name = session.Process.name()
+            pid = session.Process.pid
+            volume = session.SimpleAudioVolume.GetMasterVolume()
 
-def SetASessionsVolume(sessionName, neededVolume,):
+            sessionlist.append({
+                "name":name,
+                "pid":pid,
+                "volume":volume,
+            })
+    requests.post("http://localhost:8080", data=json.dumps(sessionlist))
+
+
+def SetASessionsVolume(sessionPid, neededVolume,):
+    sessions = AudioUtilities.GetAllSessions()
     sessionfound = False
     for session in sessions:
         if session.Process is not None:
-            appvolume = session.SimpleAudioVolume
-            if session.Process.name() == sessionName and session.Process is not None:
+            if session.Process.pid == sessionPid:
                 sessionfound = True
+                appvolume = session.SimpleAudioVolume
 
     if sessionfound:
         appvolume.SetMasterVolume(neededVolume, None)
@@ -33,11 +40,11 @@ def SetASessionsVolume(sessionName, neededVolume,):
 warnings.filterwarnings("ignore", category=UserWarning)
 
 
-
-
 if __name__ == "__main__":
-    SetASessionsVolume("brave.exe",1.0)
-    print(ListAllSessions())
+    SetASessionsVolume(6292,0.25)
+
+
+
     # devices = AudioUtilities.GetAllDevices()
     # for device in devices:
     #
