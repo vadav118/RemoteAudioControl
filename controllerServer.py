@@ -9,7 +9,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         filename = "index.html"
         fh = open(filename, "rb")
         self.send_response(200)
-        self.send_header("Content-type", "application/json")
+        self.send_header("Content-type", "html")
         self.end_headers()
 
 
@@ -22,7 +22,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         data = json.loads(post_data.decode('utf-8'))
 
         for session in data:
-            print(f"Session: {session['name']} | PID: {session['pid']} Volume: {session['volume']}")
+            print(f"Session: {session['name']} | Volume: {session['volume']}")
 
         self.send_response(200)
         self.end_headers()

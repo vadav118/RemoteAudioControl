@@ -5,8 +5,12 @@ import warnings
 import json
 import requests
 
-def PostAllSessions():
+def GetSessions():
     sessions = AudioUtilities.GetAllSessions()
+    return sessions
+
+def PostAllSessions():
+    sessions = GetSessions()
     sessionlist=[]
     for session in sessions:
         if session.Process is not None:
@@ -16,18 +20,17 @@ def PostAllSessions():
 
             sessionlist.append({
                 "name":name,
-                "pid":pid,
                 "volume":volume,
             })
     requests.post("http://localhost:8080", data=json.dumps(sessionlist))
 
 
-def SetASessionsVolume(sessionPid, neededVolume,):
-    sessions = AudioUtilities.GetAllSessions()
+def SetASessionsVolume(sessionName, neededVolume):
+    sessions = GetSessions()
     sessionfound = False
     for session in sessions:
         if session.Process is not None:
-            if session.Process.pid == sessionPid:
+            if session.Process.name == sessionName:
                 sessionfound = True
                 appvolume = session.SimpleAudioVolume
 
@@ -41,8 +44,12 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 
 if __name__ == "__main__":
-    SetASessionsVolume(6292,0.25)
+    SetASessionsVolume("brave.exe",0.25)
+    sessione= GetSessions()
+    for session in sessione:
+        if session.Process is not None:
 
+            print(session.Process.name()+":"+ str(session.Process.pid))
 
 
     # devices = AudioUtilities.GetAllDevices()
