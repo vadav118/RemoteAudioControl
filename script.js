@@ -106,3 +106,23 @@ async function getDevices() {
     }
 }
 
+
+
+class AppVolumeSlider extends HTMLElement{
+    constructor(name,volumeLevel){
+        this.name = name;
+        this.volume = volumeLevel;
+        this.innerHTML = "<div></div>";
+    }
+
+    
+}
+
+
+class AudioDevicesButton extends HTMLElement{
+    constructor(name,active){
+        this.name = name;
+        this.active = active;
+    }
+
+} 
